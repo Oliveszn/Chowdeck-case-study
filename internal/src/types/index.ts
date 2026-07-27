@@ -47,3 +47,21 @@ export interface DeliveryCheckLog {
   final_decision: boolean;
   decision_source: DecisionSource;
 }
+
+export interface RiderLocation {
+  id: number;
+  rider_id: number;
+  lat: number;
+  lng: number;
+  recorded_at: Date;
+}
+
+export type ZoneEventType = "enter" | "exit";
+
+export interface ZoneEvent {
+  id: number;
+  rider_id: number;
+  zone_id: number;
+  event_type: ZoneEventType;
+  occurred_at: Date;
+}
