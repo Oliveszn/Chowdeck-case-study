@@ -2,10 +2,7 @@ import { useState } from "react";
 import { api } from "../api/client.js";
 import type { LatLng } from "../types/index.js";
 
-// Built for the seeded Lagos polygon specifically: starts outside it,
-// walks through the middle, then continues out the other side — so a
-// full run should produce one "enter" and one "exit" event.
-// Tweak these if you reshape the Lagos polygon in the seed script.
+// Built for the seeded Lagos polygon
 const DEMO_PATH: LatLng[] = [
   [6.4, 3.2],
   [6.45, 3.27],
