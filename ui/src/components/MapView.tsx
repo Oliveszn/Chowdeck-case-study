@@ -12,18 +12,27 @@ interface Props {
   onPolygonDrawn: (polygon: LatLng[]) => void;
   onMapClick: (lat: number, lng: number) => void;
   testMarker: LatLng | null;
+  riderPosition?: LatLng | null;
 }
+
+const riderIcon = L.divIcon({
+  className: "rider-marker-icon",
+  html: '<div style="width:14px;height:14px;border-radius:50%;background:#d97706;border:2px solid white;box-shadow:0 0 0 2px #d97706;"></div>',
+  iconSize: [14, 14],
+});
 
 export function MapView({
   zones,
   onPolygonDrawn,
   onMapClick,
   testMarker,
+  riderPosition,
 }: Props) {
   const mapRef = useRef<L.Map | null>(null);
   const zoneLayerRef = useRef<L.LayerGroup | null>(null);
   const drawnLayerRef = useRef<L.FeatureGroup | null>(null);
   const testMarkerRef = useRef<L.Marker | null>(null);
+  const riderMarkerRef = useRef<L.Marker | null>(null);
 
   // Initialize the map once
   useEffect(() => {
@@ -105,6 +114,26 @@ export function MapView({
       }).addTo(map);
     }
   }, [testMarker]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (!riderPosition) {
+      riderMarkerRef.current?.remove();
+      riderMarkerRef.current = null;
+      return;
+    }
+
+    if (riderMarkerRef.current) {
+      riderMarkerRef.current.setLatLng(riderPosition);
+    } else {
+      riderMarkerRef.current = L.marker(riderPosition, {
+        icon: riderIcon,
+        title: "Simulated rider",
+      }).addTo(map);
+    }
+  }, [riderPosition]);
 
   return (
     <div className="map-pane">

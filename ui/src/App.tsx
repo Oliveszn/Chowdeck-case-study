@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { api } from "./api/client";
-import { CitySelector } from "./components/CitySelector.js";
-import { RolloutBadge } from "./components/RolloutBadge.js";
-import { MapView } from "./components/MapView.js";
-import { TestAddressPanel } from "./components/TestAddressPanel.js";
-import { ZoneList } from "./components/ZoneList.js";
-import type { City, DeliveryCheckResult, LatLng, Zone } from "./types/index.js";
+import { CitySelector } from "./components/CitySelector";
+import { RolloutBadge } from "./components/RolloutBadge";
+import { MapView } from "./components/MapView";
+import { TestAddressPanel } from "./components/TestAddressPanel";
+import { ZoneList } from "./components/ZoneList";
+import { RiderSimPanel } from "./components/RidersSimPanel";
+import type { City, DeliveryCheckResult, LatLng, Zone } from "./types/index";
 
 export default function App() {
   const [cities, setCities] = useState<City[]>([]);
@@ -17,6 +18,7 @@ export default function App() {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [testMarker, setTestMarker] = useState<LatLng | null>(null);
+  const [riderPosition, setRiderPosition] = useState<LatLng | null>(null);
   const [checkResult, setCheckResult] = useState<DeliveryCheckResult | null>(
     null,
   );
@@ -130,6 +132,13 @@ export default function App() {
 
         {selectedCity && <ZoneList zones={zones} />}
 
+        {selectedCity && (
+          <RiderSimPanel
+            cityId={selectedCityId}
+            onPositionUpdate={setRiderPosition}
+          />
+        )}
+
         {error && <div className="result-panel mismatch">{error}</div>}
       </aside>
 
@@ -138,6 +147,7 @@ export default function App() {
         onPolygonDrawn={setPendingPolygon}
         onMapClick={handleMapClick}
         testMarker={testMarker}
+        riderPosition={riderPosition}
       />
     </div>
   );

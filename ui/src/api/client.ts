@@ -14,10 +14,26 @@ async function json<T>(res: Response): Promise<T> {
   }
   return res.json() as Promise<T>;
 }
+export interface RiderLocationResult {
+  currentZoneIds: number[];
+  events: { id: number; zone_id: number; event_type: "enter" | "exit" }[];
+}
 
 export const api = {
   listCities: (): Promise<City[]> =>
     fetch(`${BASE}/cities`).then((r) => json(r)),
+
+  recordRiderLocation: (
+    riderId: number,
+    cityId: number,
+    lat: number,
+    lng: number,
+  ): Promise<RiderLocationResult> =>
+    fetch(`${BASE}/riders/${riderId}/location`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ city_id: cityId, lat, lng }),
+    }).then((r) => json(r)),
 
   getZonesForCity: (cityId: number): Promise<Zone[]> =>
     fetch(`${BASE}/zones/city/${cityId}`).then((r) => json(r)),
