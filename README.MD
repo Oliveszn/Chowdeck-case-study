@@ -4,7 +4,7 @@ A polygon-based delivery zone system with a safe, observable rollout path off a 
 
 Inspired by a Chowdeck engineering post on why radius-based delivery coverage breaks down at scale, and specifically built around the migration problem the post flagged but didn't solve: how do you roll out a new coverage model to live customers without disrupting order flow.
 
-**📄 Full write-up:** [Read the case study →](https://oliveszn.vercel.app/case-studies/chowdeck)
+**Full write-up:** [Read the case study →](https://oliveszn.vercel.app/case-studies/chowdeck)
 
 ## What this is
 
@@ -68,7 +68,7 @@ Visit `localhost:5173`. Select Lagos to see the seeded polygon, shadow-mode roll
 ## Tests
 
 ```bash
-cd chowdeck-geofence
+cd chowdeck
 bun test
 ```
 
